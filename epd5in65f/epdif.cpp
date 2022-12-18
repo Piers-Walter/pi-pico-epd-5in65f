@@ -48,7 +48,7 @@ void EpdIf::DelayMs(unsigned int delaytime) {
 
 void EpdIf::SpiTransfer(unsigned char data) {
     digitalWrite(CS_PIN, LOW);
-    SPI.transfer(data);
+    SPI1.transfer(data);
     digitalWrite(CS_PIN, HIGH);
 }
 
@@ -57,8 +57,11 @@ int EpdIf::IfInit(void) {
     pinMode(RST_PIN, OUTPUT);
     pinMode(DC_PIN, OUTPUT);
     pinMode(BUSY_PIN, INPUT); 
-    SPI.begin();
-    SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
+    SPI1.setCS(CS_PIN);
+    SPI1.setTX(MOSI_PIN);
+    SPI1.setSCK(SCK_PIN);
+    SPI1.begin();
+    SPI1.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
     
     return 0;
 }
